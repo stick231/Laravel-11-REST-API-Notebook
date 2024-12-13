@@ -19,15 +19,22 @@ class NotebookRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()//: array
     {
-        return [
-            'full_name' => 'required|',
-            'company' => '',
-            'phone' => 'required|',
-            'email' => 'required|', 
-            'birth_date' => '',
-            'photo' => ''
-        ];
+    $rules = [
+        'full_name' => 'required|string|max:255',
+        'company' => 'nullable|string|max:255',
+        'phone' => 'required|string',
+        'email' => 'required|string|email|max:255',
+        'birth_date' => 'nullable|date|date_format:Y-m-d',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ];
+
+    if ($this->isMethod('post')) {
+        $rules['email'] .= '|unique:notebooks,email';
+    }
+
+    return $rules;
     }
 }
+

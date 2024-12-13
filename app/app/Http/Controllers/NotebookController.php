@@ -3,31 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NotebookRequest;
+use App\Models\Notebook;
+use Illuminate\Http\JsonResponse;
 
 class NotebookController extends Controller
 {
-    public function index(NotebookRequest $request)
+    public function index():JsonResponse
     {
-        return response()->json(['Hello world1' => ' veniamin!'], 200);
+        $allNote = Notebook::all();
+        return response()->json($allNote);
     }
 
-    public function show(NotebookRequest $request)
+    public function show($id):JsonResponse
     {
-        return response()->json(['Hello world2' => ' asdf'], 200);
+        $showNote = Notebook::findOrFail($id);
+        return response()->json($showNote);
     }
 
-    public function store(NotebookRequest $request)
+    public function store(NotebookRequest $request) :JsonResponse
     {
-        return response()->json(['Hello world3' => ' asdf'], 200);
+        $data = $request->validated();
+        Notebook::create($data);
+
+        return response()->json(['message' => 'note created'], 201);
     }
 
-    public function update(NotebookRequest $request)
+
+    public function update(NotebookRequest $request, $id): JsonResponse
     {
-        return response()->json(['Hello world4' => ' asdf'], 200);
+        $notebook = Notebook::findOrFail($id);
+        $notebook->update($request->validated()); 
+        return response()->json(['message' => 'Запись обновлена', 'data' => $notebook], 200);
     }
 
-    public function destroy(NotebookRequest $request) 
+    public function destroy($id) :JsonResponse
     {
-        return response()->json(['Hello world5' => 'asdf'], 200);
+        Notebook::destroy($id);
+        return response()->json(['message' => 'Запись удаленна']);
     }
 }
