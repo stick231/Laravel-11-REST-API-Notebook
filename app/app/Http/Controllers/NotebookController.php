@@ -8,13 +8,13 @@ use Illuminate\Http\JsonResponse;
 
 class NotebookController extends Controller
 {
-    public function index()
+    public function index():JsonResponse
     {
         $allNote = Notebook::all();
         return response()->json($allNote);
     }
 
-    public function show($id)
+    public function show($id):JsonResponse
     {
         $showNote = Notebook::findOrFail($id);
         return response()->json($showNote);
@@ -36,7 +36,7 @@ class NotebookController extends Controller
         return response()->json(['message' => 'Запись обновлена', 'data' => $notebook], 200);
     }
 
-    public function destroy($id) 
+    public function destroy($id) :JsonResponse
     {
         Notebook::destroy($id);
         return response()->json(['message' => 'Запись удаленна']);
