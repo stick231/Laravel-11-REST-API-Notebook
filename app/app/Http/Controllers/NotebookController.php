@@ -10,14 +10,12 @@ class NotebookController extends Controller
 {
     public function index():JsonResponse
     {
-        $allNote = Notebook::all();
-        return response()->json($allNote);
+        return response()->json(Notebook::all());
     }
 
-    public function show($id):JsonResponse
+    public function show(Notebook $notebook):JsonResponse
     {
-        $showNote = Notebook::findOrFail($id);
-        return response()->json($showNote);
+        return response()->json($notebook);
     }
 
     public function store(NotebookRequest $request) :JsonResponse
@@ -36,9 +34,9 @@ class NotebookController extends Controller
         return response()->json(['message' => 'Запись обновлена', 'data' => $notebook], 200);
     }
 
-    public function destroy($id) :JsonResponse
+    public function destroy(Notebook $notebook) :JsonResponse
     {
-        Notebook::destroy($id);
+        $notebook->delete();
         return response()->json(['message' => 'Запись удаленна']);
     }
 }
