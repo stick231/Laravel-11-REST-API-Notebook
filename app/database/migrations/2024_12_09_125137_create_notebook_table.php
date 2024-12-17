@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notebook', function (Blueprint $table) {
+        Schema::create('notebooks', function (Blueprint $table) {
             $table->id();
             $table->text('full_name');
             $table->text('company')->nullable();;
-            $table->text('phony');
+            $table->text('phone');
             $table->text('email');
             $table->date('birth_date')->nullable();;
             $table->text('photo')->nullable();;
