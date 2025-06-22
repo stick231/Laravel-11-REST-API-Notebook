@@ -10,7 +10,13 @@ class NotebookController extends Controller
 {
     public function index():JsonResponse
     {
-        return response()->json(Notebook::all());
+        $notebooks = Notebook::all();
+
+        if(!empty($notebooks)){
+            return response()->json(['success' => 'false', 'message' => 'Notebook is not found'], 404);
+        }
+
+        return response()->json(['success' => 'true', 'data' => $notebooks]);
     }
 
     public function show(Notebook $notebook):JsonResponse
